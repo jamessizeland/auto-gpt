@@ -1,6 +1,6 @@
 # auto-gpt
 
-Auto-gpt written in rust from the tutorial at [coderaidershaun.com](https://coderaidershaun.com)
+Auto-gpt written in rust from the tutorial at <https://www.udemy.com/course/autogpt-gpt4-code-writing-ai/>
 
 ## Getting Started
 
