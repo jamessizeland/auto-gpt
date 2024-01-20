@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 ai_functions = "0.1.1" # AI functions
+anyhow = "1.0.79"
 async-trait = "0.1.77" # Async traits
 crossterm = "0.27.0" # Terminal manipulation
 dotenv = "0.15.0" # Environment variables
