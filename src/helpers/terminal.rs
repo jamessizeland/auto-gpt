@@ -5,6 +5,36 @@ use crossterm::{
     ExecutableCommand,
 };
 
+#[derive(Debug, PartialEq)]
+pub enum PrintCommand {
+    AICall,
+    UnitTest,
+    Issue,
+}
+
+impl PrintCommand {
+    pub fn print_agent_message(
+        &self,
+        agent_role: &str,
+        agent_statement: &str,
+    ) -> Result<(), anyhow::Error> {
+        let mut stdout = std::io::stdout();
+        // Decide on print colour
+        let colour = match self {
+            PrintCommand::AICall => Color::Cyan,
+            PrintCommand::UnitTest => Color::Magenta,
+            PrintCommand::Issue => Color::Red,
+        };
+        // print the agent role in a specific color.
+        stdout.execute(SetForegroundColor(Color::Green))?;
+        print!("Agent[{}]: ", agent_role);
+        stdout.execute(SetForegroundColor(colour))?;
+        print!("{}", agent_statement);
+        stdout.execute(ResetColor)?;
+        Ok(())
+    }
+}
+
 /// Get user request
 pub fn get_user_response(question: &str) -> Result<String, anyhow::Error> {
     let mut stdout = std::io::stdout();
@@ -41,4 +71,18 @@ pub fn print_welcome() -> Result<(), anyhow::Error> {
     println!("I am your personal ai assistant, Vitruvius.");
     stdout.execute(ResetColor)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_print_agent_message() -> Result<(), anyhow::Error> {
+        let print_command = PrintCommand::AICall;
+        let agent_role = "Managing Agent";
+        let agent_statement = "Hello, I am a Managing Agent.";
+        print_command.print_agent_message(agent_role, agent_statement)?;
+        Ok(())
+    }
 }
