@@ -1,0 +1,42 @@
+[package]
+name = "vitruvius"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ai_functions = "0.1.1" # AI functions
+async-trait = "0.1.77" # Async traits
+crossterm = "0.27.0" # Terminal manipulation
+dotenv = "0.15.0" # Environment variables
+reqwest = { version = "0.11.23", features = ["json"] } # HTTP requests
+serde = { version = "1.0.195", features = ["derive"] } # Serialization
+serde_json = "1.0.111" # JSON serialization
+strum = "0.25.0" # Enum traits
+strum_macros = "0.25.3" # Enum traits
+tokio = { version = "1.35.1", features = ["full"] } # Async runtime
+webbrowser = "0.8.12" # Open URLs in the browser
+
+[lints.rust]
+unsafe_code = "forbid" # Disallow unsafe code
+
+[lints.clippy]
+enum_glob_use = "deny" # Disallow enum glob imports
+pedantic = "deny" # Enable all pedantic lints
+nursery = "deny" # Enable all nursery lints
+unwrap_used = "deny" # Disallow unwrap
+
+[profile.release]
+opt-level = "z" # Optimize for small size
+lto = true # Enable link-time optimization
+debug = false # Disable debug symbols
+panic = "abort" # Abort on panic
+strip = "symbols" # Strip debug symbols
+codegen-units = 1 # Compile all code into a single unit
+
+[profile.dev]
+opt-level = 3 # Optimize for speed
+debug = true # Enable debug symbols
+panic = "abort" # Abort on panic
+codegen-units = 1 # Compile all code into a single unit
