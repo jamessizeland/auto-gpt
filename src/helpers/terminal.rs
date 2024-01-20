@@ -1,15 +1,13 @@
-use std::{fs, io::stdin};
-
 use anyhow::Context;
 use crossterm::{
     style::{Color, ResetColor, SetForegroundColor},
     ExecutableCommand,
 };
 use reqwest::Client;
-use serde::de::Error;
+use std::{fs, io::stdin};
 
-const CODE_TEMPLATE_PATH: &str = "./rust-web-server-template/src/code_template.rs";
-const EXEC_MAIN_PATH: &str = "./rust-web-server-template/src/main.rs";
+const CODE_TEMPLATE_PATH: &str = "./template/src/code_template.rs";
+const EXEC_MAIN_PATH: &str = "./template/src/main.rs";
 const API_SCHEMA_PATH: &str = "./schemas/api_schema.json";
 
 #[derive(Debug, PartialEq)]
