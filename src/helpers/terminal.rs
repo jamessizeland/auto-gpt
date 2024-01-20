@@ -1,9 +1,16 @@
-use std::io::stdin;
+use std::{fs, io::stdin};
 
+use anyhow::Context;
 use crossterm::{
     style::{Color, ResetColor, SetForegroundColor},
     ExecutableCommand,
 };
+use reqwest::Client;
+use serde::de::Error;
+
+const CODE_TEMPLATE_PATH: &str = "./rust-web-server-template/src/code_template.rs";
+const EXEC_MAIN_PATH: &str = "./rust-web-server-template/src/main.rs";
+const API_SCHEMA_PATH: &str = "./schemas/api_schema.json";
 
 #[derive(Debug, PartialEq)]
 pub enum PrintCommand {
@@ -33,6 +40,31 @@ impl PrintCommand {
         stdout.execute(ResetColor)?;
         Ok(())
     }
+}
+
+/// Check whether request url is valid
+pub async fn check_status_code(client: &Client, url: &str) -> Result<u16, anyhow::Error> {
+    let response = client.get(url).send().await?;
+    Ok(response.status().as_u16())
+}
+
+/// Get code template
+pub fn read_code_template() -> Result<String, anyhow::Error> {
+    let code_template =
+        std::fs::read_to_string(CODE_TEMPLATE_PATH).context("Failed to read code template")?;
+    Ok(code_template)
+}
+
+/// Save new backend code
+pub fn save_backend_code(contents: &str) -> Result<(), anyhow::Error> {
+    fs::write(EXEC_MAIN_PATH, contents).context("Failed to save backend code to file")?;
+    Ok(())
+}
+
+/// Save JSON API Endpoint schema
+pub fn save_api_endpoints(api_endpoints: &str) -> Result<(), anyhow::Error> {
+    fs::write(API_SCHEMA_PATH, api_endpoints).context("Failed to save api schema code to file")?;
+    Ok(())
 }
 
 /// Get user request
