@@ -1,5 +1,6 @@
 # auto-gpt
-auto-gpt written in rust
+
+Auto-gpt written in rust from the tutorial at [coderaidershaun.com](https://coderaidershaun.com)
 
 ## Getting Started
 
